@@ -2,7 +2,7 @@ package programming;
 
 import java.util.List;
 
-public class FP01 {
+public class FP01Structured {
 
     public static void main(String[] args) {
         printAllValuesInListSctructured(List.of(12,5,8,9,7));
