@@ -15,7 +15,11 @@ public class FP02Exercises {
         //sorted, also we can use sorted
         numbers.stream().sorted().forEach(System.out::println);
         // both
-        numbers.stream().distinct().sorted().forEach(System.out::println);
+        numbers.stream().distinct().forEach(System.out::println);
+
+        List<String> courses = List.of("Spring", "API", "Kubernetes");
+
+        courses.stream().sorted().forEach(System.out::println);
     }
 
     private static int getSumOfSquares(List<Integer> numbers){
