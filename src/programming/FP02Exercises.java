@@ -23,7 +23,7 @@ public class FP02Exercises {
     }
 
     private static int getSumOfSquares(List<Integer> numbers){
-        return numbers.stream().map(i -> i*i).reduce(0,Integer::sum);
+        return numbers.stream().map(i -> i*i).reduce(0,Integer::sum); // T returns an specific type
     }
 
     private static int getSumOfCubes(List<Integer> numbers){
