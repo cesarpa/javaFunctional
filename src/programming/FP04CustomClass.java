@@ -1,7 +1,9 @@
 package programming;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class FP04CustomClass {
 
@@ -33,7 +35,118 @@ public class FP04CustomClass {
         System.out.println(courses.stream().noneMatch(lessThan90Predicate));
 
         System.out.println(courses.stream().anyMatch(equalsTo100Predicate));
+
+        // lets sort the courses
+        Comparator comparingByNoOfStudentsIncreasing = Comparator.comparing(Course::getNoOfStudents);
+        Comparator comparingByNoOfStudentsDecreasing = Comparator.comparing(Course::getNoOfStudents).reversed();
+
+        System.out.println(
+        courses.stream().sorted(comparingByNoOfStudentsIncreasing).collect(Collectors.toList()));
+
+        System.out.println(
+                courses.stream().sorted(comparingByNoOfStudentsDecreasing).collect(Collectors.toList()));
+
+        // lets compare by numbers of reviews
+        Comparator comparingByNoOfReviews = Comparator.comparing(Course::getReviewScore);
+        System.out.println(
+                courses.stream().sorted(comparingByNoOfReviews).collect(Collectors.toList())
+        );
+
+        // lets compare by numbers of students and Number of reviews
+        Comparator comparingByNoOfStudentsAndNoOfReviews = Comparator.comparing(Course::getNoOfStudents)
+                                    .thenComparing(Course::getReviewScore).reversed();
+        System.out.println(
+                courses.stream().sorted(comparingByNoOfStudentsAndNoOfReviews).collect(Collectors.toList())
+        );
+
+
+        // right here we wanna get the top five the first five
+        // we can use a Limit
+        System.out.println(
+                courses.stream().sorted(comparingByNoOfStudentsAndNoOfReviews).limit(5).collect(Collectors.toList())
+        );
+
+        // skip function, would skip the first elements
+        // also we can combine these operations too
+        System.out.println(
+                courses.stream().sorted(comparingByNoOfStudentsAndNoOfReviews).skip(3).limit(2).collect(Collectors.toList())
+        );
+
+        // here we can put a condition for take the courses
+        System.out.println(courses.stream().takeWhile(c -> c.getReviewScore()>= 95).collect(Collectors.toList()));
+
+        // but also we can do the opposite using dropWhile
+        System.out.println(courses.stream().dropWhile(c -> c.getReviewScore()>= 95).collect(Collectors.toList()));
+
+        System.out.println(courses.stream().max(Comparator.comparing(Course::getNoOfStudents).thenComparing(Course::getReviewScore)));
+
+        System.out.println(courses.stream()
+                        .filter( c -> c.getReviewScore() <= 90)
+                        .min(Comparator.comparing(Course::getNoOfStudents).thenComparing(Course::getReviewScore))
+                        .orElse(new Course("Kuberntes", "Cloud",91, 20000)));
+        // Optional.empty
+
+        // lets find the first Element with tha criteria
+
+        System.out.println(courses.stream().filter(  c -> c.getReviewScore() <= 95)
+                .findFirst());
+
+        System.out.println(courses.stream().filter(  c -> c.getReviewScore() <= 95)
+                .findAny());
+
+        // SUM AVERAGE AND COUNT
+
+        System.out.println(courses.stream()
+                .filter(moreThan95Predicate)
+                .mapToInt(Course::getNoOfStudents)
+                .sum()); // 78000
+
+        courses.stream()
+                .filter(moreThan95Predicate)
+                .mapToInt(Course::getNoOfStudents)
+                .average();
+
+        courses.stream()
+                .filter(moreThan95Predicate)
+                .count();
+
+
+        // USING GROUP AND GROUPING BY
+
+        // for example we want to group in a category like Cloud , Microservices or Framework
+        System.out.println(courses.stream()
+                .collect(Collectors.groupingBy(Course::getCategory)));
+        // {Cloud=[Course{name='Azure', category='Cloud', reviewScore=95, noOfStudents=18000}, Course{name='AWS', category='Cloud', reviewScore=100, noOfStudents=30000}], FullStack=[Course{name='FullStack', category='FullStack', reviewScore=91, noOfStudents=10000}], Microservices=[Course{name='API', category='Microservices', reviewScore=96, noOfStudents=11000}], Framework=[Course{name='Spring', category='Framework', reviewScore=98, noOfStudents=20000}, Course{name='Microservices', category='Framework', reviewScore=97, noOfStudents=17000}]}
+
+
+        // lets find just for a category and the numbers of courses for categories, we'll use counting()
+        System.out.println(
+                courses.stream().collect(Collectors.groupingBy(Course::getCategory, Collectors.counting()))
+        );
+        // {Cloud=2, FullStack=1, Microservices=1, Framework=2}
+
+        // now we gonna group by category by just getting the max ReviewScore from each category
+
+        System.out.println(
+                courses.stream().collect(
+                        Collectors.groupingBy(Course::getCategory, Collectors.maxBy(Comparator.comparing(Course::getReviewScore)))
+                )
+        );
+        // {Cloud=Optional[Course{name='AWS', category='Cloud', reviewScore=100, noOfStudents=30000}], FullStack=Optional[Course{name='FullStack', category='FullStack', reviewScore=91, noOfStudents=10000}], Microservices=Optional[Course{name='API', category='Microservices', reviewScore=96, noOfStudents=11000}], Framework=Optional[Course{name='Spring', category='Framework', reviewScore=98, noOfStudents=20000}]}
+
+        // lets do the same but just mapping the name of the course
+
+        System.out.println(
+                courses.stream().collect(
+                        Collectors.groupingBy(Course::getCategory, Collectors.mapping( Course::getName, Collectors.toList()))
+                )
+        );
+        // {Cloud=[Azure, AWS], FullStack=[FullStack], Microservices=[API], Framework=[Spring, Microservices]}
+
+        // with this  functional approach we understand what are we doing here 
+
     }
+
 }
 
 class Course {
