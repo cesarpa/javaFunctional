@@ -143,7 +143,7 @@ public class FP04CustomClass {
         );
         // {Cloud=[Azure, AWS], FullStack=[FullStack], Microservices=[API], Framework=[Spring, Microservices]}
 
-        // with this  functional approach we understand what are we doing here 
+        // with this  functional approach we understand what are we doing here
 
     }
 
