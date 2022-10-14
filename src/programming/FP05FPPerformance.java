@@ -2,7 +2,7 @@ package programming;
 
 import java.util.List;
 
-public class JP05FPPerformance {
+public class FP05FPPerformance {
 
     public static void main(String[] args) {
         // performance conde in functional programing it was created 50 years ago
