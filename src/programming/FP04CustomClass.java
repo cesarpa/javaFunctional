@@ -18,6 +18,29 @@ public class FP04CustomClass {
 
         // all match, noneMatch, anyMatch
 
+        List<Team> teams = List.of(new Team("Barcelona", 2, 25, "La liga"),
+                new Team("Madrid", 1, 28, "La liga"),
+                new Team("Arsenal", 2, 27, "Premier"),
+                new Team("Tottenham", 3, 23, "Premier"),
+                new Team("Man City", 2, 23, "Premier"));
+
+        System.out.println(teams.stream().allMatch(t -> t.getPoints() > 25)); // false
+        System.out.println(teams.stream().noneMatch(t -> t.getPoints() == 30)); // true
+        System.out.println(teams.stream().anyMatch(t -> t.getPoints() == 30)); // true
+
+        teams.stream().sorted(Comparator.comparing(Team::getPoints).reversed()).forEach(System.out::println);
+
+
+        System.out.println(teams.stream().collect(Collectors.groupingBy(Team::getLeague)));
+
+        System.out.println(teams.stream().collect(Collectors.groupingBy(Team::getLeague, Collectors.counting())));
+
+        System.out.println(teams.stream().collect(Collectors.groupingBy(Team::getPoints, Collectors.mapping( Team::getName, Collectors.toList()))));
+
+        System.out.println(teams.stream().collect(Collectors.groupingBy(Team::getLeague, Collectors.averagingInt(Team::getPoints))));
+
+
+
 
         Predicate<Course> moreThan90Predicate = course -> course.getReviewScore() > 90;
 
@@ -146,6 +169,62 @@ public class FP04CustomClass {
         // with this  functional approach we understand what are we doing here
 
     }
+
+}
+
+class Team {
+    private String name;
+    private Integer position;
+    private Integer points;
+    private String league;
+
+    public Team(String name, Integer position, Integer points, String league) {
+        this.name = name;
+        this.position = position;
+        this.points = points;
+        this.league = league;
+    }
+
+    @Override
+    public String toString() {
+        return "(Team:" + name +
+                ", position=" + position +
+                ", points=" + points +
+                ", league='" + league + ")";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    public String getLeague() {
+        return league;
+    }
+
+    public void setLeague(String league) {
+        this.league = league;
+    }
+
 
 }
 

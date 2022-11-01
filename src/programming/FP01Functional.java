@@ -14,6 +14,11 @@ public class FP01Functional {
         numbers.stream().forEach(System.out::println); // :: method reference (for each element this method should be called)
         // then we have to specify what to do with each of them (a system print)
         //numbers.stream().forEach( (i) -> System.out.println(i));
+
+
+        for (int number : numbers){
+            System.out.println(numbers);
+        }
     }
 
     private static boolean isEven(Integer number) {

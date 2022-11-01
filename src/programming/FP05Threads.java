@@ -33,10 +33,26 @@ public class FP05Threads {
         Thread thread3 = new Thread(runnableFunctional);
         thread3.start();
 
+        Runnable runnableFunctional2 = () ->{
+            IntStream.range(0,10000).forEach(i -> System.out.println(Thread.currentThread().getId() + ":" + i));
+        };
+
+        Thread thread4 = new Thread(runnableFunctional2);
+        thread4.start();
+
+      ExtendsThread t = new ExtendsThread();
+      t.start();
+
 
         // Using Functional Programming in Java Language
         // use the functional programming using list sets collections  or map
         // its important that everybodyis introduced to functional programming
     }
+}
 
+class ExtendsThread extends  Thread{
+    @Override
+    public  void run(){
+        IntStream.range(1,10000).forEach(i -> System.out.println(Thread.currentThread().getId() + ":" + i));
+    }
 }

@@ -1,18 +1,23 @@
 package programming;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FP01Structured {
 
     public static void main(String[] args) {
-        printAllValuesInListSctructured(List.of(12,5,8,9,7));
+        List<Integer> numbers = List.of(1, 2, 3, 4);
+        Integer sum = numbers.stream().reduce(0, (x, y) -> x + y);
+        System.out.println(sum);
+
+
     }
 
     private static void printAllValuesInListSctructured(List<Integer> numbers) {
-        // how to loop the numbers
-        // enhance loop
-        for (Integer i : numbers){
-            System.out.println(i);
+        for (Integer i : numbers) {
+            if (i % 2 == 0) {
+                System.out.println(i);
+            }
         }
     }
 }

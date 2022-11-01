@@ -7,15 +7,27 @@ import java.util.function.*;
 public class FP03FunctionalInterfaces {
 
     public static void main(String[] args) {
-        List<Integer> numbers = List.of(12,9,13,4,6,2,4);
+        List<Integer> numbers = List.of(12, 9, 13, 4, 6, 2, 4);
 
-        Predicate<Integer> isEvenPredicate = x -> x %2==0;
 
-        Function<Integer, Integer> squareFunction = x-> x*x;
-        //recive an integer returns an integer
 
-        Consumer<Integer> sysoutCOnsumer = x -> System.out.println(x);
-        // take and indput but do not return anything
+
+        Predicate<Integer> isEvenPredicate = x -> x % 2 == 0;
+        // Represents a predicate (boolean-valued function) of one argument.
+
+        Function<Integer, Integer> squareFunction = x -> x * x;
+        // Represents a function that accepts one argument and produces a result.
+
+        Consumer<Integer> sysoutConsumer = x -> System.out.println(x);
+        // Represents an operation that accepts a single input argument and returns no result.
+
+        numbers.stream()
+                .filter(isEvenPredicate)
+                .map(squareFunction)
+                .forEach(sysoutConsumer);
+
+
+
 
         BinaryOperator<Integer> sumBinaryOperator = (x,y) -> x+y;
         // use to pass lambda expressions
@@ -73,5 +85,9 @@ public class FP03FunctionalInterfaces {
         //IntToUnaryOperator
 
 
+    }
+
+    public static void imprimir(Integer a){
+        System.out.println(a);
     }
 }
